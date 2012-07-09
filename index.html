@@ -47,7 +47,7 @@
 				document.getElementById(name).addEventListener('change',function(e) {
 					console.log('In the listener of '+e.target.getAttribute('id'));
 					varTree.form[e.target.getAttribute('id')]=document.getElementById(e.target.getAttribute('id')).value;
-					connection.send('form.'+e.target.getAttribute('id')+'='+document.getElementById(e.target.getAttribute('id')).value);
+					connection.send('form.'+e.target.getAttribute('id')+'='+document.getElementById(e.target.getAttribute('id')).value.replace(/(\r?\n)/igm,'\\'+"\n"));
 					});
 				})();
 			}

@@ -2,7 +2,7 @@ WebSocketIPC
 ============
 
 WebSocketIPC is a websocket server allowing you to synchronize a variable tree between each clients of the server.
-It can also be used to synchronize datas beetween to instances of the same NodeJS application by piping VarStreams.
+It can also be used to synchronize datas beetween instances of the same NodeJS application by piping VarStreams.
 It's a proof of concept of the VarStream project (git repo: https://github.com/nfroidure/VarStream ).
 
 WebSocketIPC program is free to use for any purpose (GNU/GPL).
