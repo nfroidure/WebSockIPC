@@ -44,7 +44,7 @@
 					document.getElementById(name).value=value;
 					});
 				// Looking for input update and synchronizing with server
-				document.getElementById(name).addEventListener('change',function(e) {
+				document.getElementById(name).addEventListener('keyup',function(e) {
 					console.log('In the listener of '+e.target.getAttribute('id'));
 					varTree.form[e.target.getAttribute('id')]=document.getElementById(e.target.getAttribute('id')).value;
 					connection.send('form.'+e.target.getAttribute('id')+'='+document.getElementById(e.target.getAttribute('id')).value.replace(/(\r?\n)/igm,'\\'+"\n"));

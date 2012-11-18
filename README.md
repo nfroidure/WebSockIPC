@@ -16,7 +16,7 @@ npm install websocket
 node websockipc.js 
 </pre>
 
-Open index.html multiple times on your browser to test WebSocketIPC synchronization.
+Open index.html multiple times on your browsers to test WebSocketIPC synchronization.
 
 Contributors
 -------------
