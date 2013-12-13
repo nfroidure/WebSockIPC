@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebSockIPC</title>
+  </head>
+  <body>
+    <h1>WebSockIPC</h1>
+    <p>
+      A simple use case of VarStreams. It synchronize each clients UIs using
+      VarStreams and Javascript Setters/Getters.
+    </p>
+    <form><p>
+      <label>Firstname : <input type="text" value="" id="firstname" class="sync" /></label><br />
+      <label>Lastname : <input type="text" value="" id="lastname" class="sync" /></label><br />
+      <label>Email : <input type="text" value="" id="email" class="sync" /></label><br />
+      <label>Subject : <input type="text" value="" id="subject" class="sync" /></label><br />
+      <label>Message :<br />
+      <textarea id="message" style="width:60%;" rows="10" class="sync"></textarea></label><br />
+      <input type="button" id="button" value="Send" />
+    </p></form>
+    <script type="text/javascript" src="javascript/script.js"></script>
+  </body>
+</html>

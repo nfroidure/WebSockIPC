@@ -1,0 +1,33 @@
+{
+  "name": "WebSockIPC",
+  "version": "0.0.0",
+  "description": "Synchronize data trees between clients",
+  "main": "src/backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nfroidure/WebSockIPC"
+  },
+  "keywords": [
+    "varstream",
+    "websocket"
+  ],
+  "author": "Nicolas Froidure",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nfroidure/WebSockIPC/issues"
+  },
+  "homepage": "https://github.com/nfroidure/WebSockIPC",
+  "dependencies": {
+    "varstream": "0.2.1",
+    "websocket": "~1.0.8"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "browserify": "~2.36.1",
+    "grunt-browserify": "~1.2.12",
+    "matchdep": "~0.3.0"
+  }
+}

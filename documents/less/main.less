@@ -1,0 +1,47 @@
+@import "_reset.less";
+@import "_vars.less";
+@import "_mixins.less";
+@import "_icons.less";
+
+/* Common styles */
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+/* RWD */
+
+/* S : 1 column : */
+@media screen and (max-width: (@M + @gutter * 2 - @RWDSec)) {
+	head link { content:'S'; }
+
+}
+
+/* n+1 columns */
+@media screen and (min-width: (@M + @gutter * 2)) {
+
+}
+
+/* M : 2 columns */
+@media screen and (min-width: (@M + @gutter * 2)) and (max-width: (@L + @gutter * 2 - @RWDSec)) {
+	head link { content:'M'; }
+
+}
+
+/* n+2 columns */
+@media screen and (min-width: (@L + @gutter * 2)) {
+
+}
+
+@media screen and (min-width: (@L + @gutter * 2)) and (max-width: (@XL + @gutter * 2 - @RWDSec)) {
+	head link { content:'L'; }
+
+}
+
+/* XL : 4 columns */
+@media screen and (min-width: (@XL + @gutter * 2)) {
+	head link { content:'XL'; }
+
+}
+
