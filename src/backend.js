@@ -3,13 +3,15 @@
 var cluster = require('cluster')
   , numCPUs = require('os').cpus().length
   , VarStream = require('varstream')
-  , fs = require('fs');
+  , fs = require('fs')
+  , net = require('net');
 
 
 // Creating the shared variable tree
 var rootScope = {}
   // creating the shared VarStream
-  , sharedVarStream = new VarStream(rootScope, 'tree');
+  , sharedVarStream = new VarStream(rootScope, 'tree')
+;
 
 // Reading saved variable tree
 fs.createReadStream(__dirname+'/../vars.dat').pipe(sharedVarStream,{
@@ -19,6 +21,20 @@ fs.createReadStream(__dirname+'/../vars.dat').pipe(sharedVarStream,{
 // Master worker
 if (cluster.isMaster) {
 
+  // Creating a socket server to accept slaves
+  var server = net.createServer(function (socket) {
+    sockets.push(socket);
+    process.stdout.write('# Slave['+socket.remoteAddress+']: New slave\n');
+  }), sockets = [];
+  server.listen(1338, '127.0.0.1');
+
+  // Listening the master server
+  if(process.argv[2]) {
+    var master = net.connect(1338, process.argv[2], function(socket) {
+      socket.on('data', messageHandler);
+    });
+  }
+
   // Fork workers.
   for (var i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -27,12 +43,16 @@ if (cluster.isMaster) {
   var messageHandler = function (msg) {
     // Processing the message
     sharedVarStream.write(msg.cnt);
-    // Echoing to stdout
-    process.stdout.write(msg.cnt);
+    // Broadcasting to slave servers
+    sockets.forEach(function(socket) {
+      socket.write(msg.cnt);
+    });
     // Broadcasting to child workers
     Object.keys(cluster.workers).forEach(function(id) {
       cluster.workers[id].send(msg);
     });
+    // Echoing to stdout
+    process.stdout.write(msg.cnt);
   }
 
   // Fork ready
@@ -43,7 +63,15 @@ if (cluster.isMaster) {
       worker.send({cnt: String(chunk)});
     });
     // Listening to messages
-    cluster.workers[worker.id].on('message', messageHandler);
+    cluster.workers[worker.id].on('message', function(msg) {
+      // If slave sending to master server
+      if(master) {
+        master.write(msg.cnt);
+      // If master broadcasting
+      } else {
+        messageHandler(msg);
+      }
+    });
   });
 
   // Fork dying, create a new one
@@ -54,12 +82,16 @@ if (cluster.isMaster) {
 
   // Piping stdin to the VarStream
   process.stdin.pipe(new VarStream(rootScope, 'tree'));
-  // Repeating stdin to clients
+
+  // Repeating stdin
   process.stdin.on('data',function(chunk) {
-    // Broadcasting to child workers
-    Object.keys(cluster.workers).forEach(function(id) {
-      cluster.workers[id].send({cnt: String(chunk)});
-    });
+    // If slave sending to master server
+    if(master) {
+      master.write(chunk);
+    // If master broadcasting
+    } else {
+      messageHandler({cnt: chunk});
+    }
   });
 
   // Managing process exits
@@ -92,7 +124,7 @@ if (cluster.isMaster) {
   // Starting a trivial web server
   var server = http.createServer(function(request, response) {
     var path=request.url;
-    console.log('# Worker['+process.pid+']: Serving: ' + path + '\n');
+    process.stdout.write('# Worker['+process.pid+']: Serving: ' + path + '\n');
     if(path.length-1 === path.lastIndexOf('/')) {
       path+='index.html';
     }
