@@ -90,7 +90,7 @@ if (cluster.isMaster) {
       master.write(chunk);
     // If master broadcasting
     } else {
-      messageHandler({cnt: chunk});
+      messageHandler({cnt: String(chunk)});
     }
   });
 
