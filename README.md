@@ -1,6 +1,8 @@
 WebSocketIPC
 ============
 
+** Abandonated: ** I'm not doing to maintain this project anymore, i'll just leave it here for historical reasons. Feel free to reuse it according to its license.
+
 WebSocketIPC is a websocket server allowing you to synchronize a variable tree
  between each clients of the server.
 
